@@ -4,10 +4,21 @@ const { BadRequestError } = require("../expressError");
 /**
  * Generates SQL string and parameter values for a partial
  * update operation on a database table.
- * @param {*} dataToUpdate
- * @param {*} jsToSql
- * @returns
+ * @param dataToUpdate: An object containing the data to be updated.
+ * Keys represent column names, and values represent the new data.
+ * @param jsToSql: An optional object mapping JavaScript object keys
+ * to their corresponding column names in the database.
+ * If a mapping exists, it will be used; otherwise,
+ * the JavaScript object key will be used as is.
+ * @returns An object with the following properties:
+ * { setCols: A comma-separated string of column names and placeholders
+ * for the SET clause in an SQL UPDATE statement.
+ *   values: An array of parameter values corresponding
+ * to the placeholders in the setCols string.
+ * }
+ * @errors BadRequestError: Thrown if the dataToUpdate object is empty.
  */
+
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
   if (keys.length === 0) throw new BadRequestError("No data");

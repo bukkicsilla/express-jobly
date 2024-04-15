@@ -25,6 +25,9 @@ app.use("/auth", authRoutes);
 app.use("/companies", companiesRoutes);
 app.use("/users", usersRoutes);
 
+app.get("/", function (req, res) {
+  return res.json({ message: "Welcome to Jobly" });
+});
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
