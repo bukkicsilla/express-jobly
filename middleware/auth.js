@@ -16,7 +16,7 @@ const { UnauthorizedError } = require("../expressError");
 
 function authenticateJWT(req, res, next) {
   try {
-    //Question: does authHeader contain the token?
+    //Question: does authHeader contain the token? YES: Authorization: Bearer token
     const authHeader = req.headers && req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
@@ -42,7 +42,33 @@ function ensureLoggedIn(req, res, next) {
   }
 }
 
+function ensureAdmin(req, res, next) {
+  try {
+    if (!res.locals.user || !res.locals.user.isAdmin) {
+      throw new UnauthorizedError();
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
+
+function ensureAdminOrUser(req, res, next) {
+  try {
+    const user = res.locals.user;
+    console.log("res.locals.user.isAdmin", user.isAdmin);
+    console.log("res.locals.user.username", user.username);
+    if (!(user && (user.isAdmin || user.username === req.params.username))) {
+      throw new UnauthorizedError();
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
 module.exports = {
   authenticateJWT,
   ensureLoggedIn,
+  ensureAdmin,
+  ensureAdminOrUser,
 };
