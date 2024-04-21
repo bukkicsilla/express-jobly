@@ -11,6 +11,7 @@ const {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
+  testJobIds,
   u1Token,
   u2Token,
   adminToken,
@@ -280,7 +281,7 @@ describe("GET /users/:username", function () {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
-        //applications: [testJobIds[0]],
+        applications: [testJobIds[0]],
       },
     });
   });
@@ -296,7 +297,7 @@ describe("GET /users/:username", function () {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
-        //applications: [testJobIds[0]],
+        applications: [testJobIds[0]],
       },
     });
   });
